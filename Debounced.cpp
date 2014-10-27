@@ -16,6 +16,40 @@
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+ 
+ /*
+ Why a big ol uint32?
+uint16 rolls over in 1 minute, way too short
+uint32 rolls over in 49 days, pretty long, should cover everything
+The best way is t do a thought experiment or excel spreadsheet showing what happens when you roll over using the method shown.
+but it's like this...
+
+Timer is at fff7
+you want to wait F ms
+Using this timeout function;
+(using 16 bit unsigned for simplicity)
+
+period is f
+start is fff7
+
+current is fff7
+current - start is 0 which is  < f
+
+current is ffff
+current - start is 8 which is  < f
+
+current is 0000
+current - start is 9 which is  < f
+
+current is 0006
+current - start is f which is  == f
+
+current is 0007
+current - start is 10 which is  > f
+
+current is 0008
+current - start is 11 which is  > f
+*/
 
 #include <Arduino.h> 
 #include "Debounced.h"
